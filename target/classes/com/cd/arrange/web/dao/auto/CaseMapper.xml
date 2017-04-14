@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cd.arrange.web.dao.auto.CaseDAO">
+    <resultMap id="BaseResultMap" type="com.cd.arrange.web.model.auto.Case">
+    	
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="comment" property="comment" jdbcType="VARCHAR" />
+        <result column="projectId" property="projectId" jdbcType="INTEGER" />
+        <result column="projectName" property="projectName" jdbcType="VARCHAR" />
+        <result column="category" property="category" jdbcType="INTEGER" />
+        <result column="categoryName" property="categoryName" jdbcType="VARCHAR" />
+        <result column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="userName" property="userName" jdbcType="VARCHAR" />
+        <result column="insertTime" property="insertTime" jdbcType="VARCHAR" />
+        <result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+        <result column="pageSize" property="pageSize" jdbcType="INTEGER" />
+        <result column="pageStart" property="pageStart" jdbcType="INTEGER" />
+    </resultMap>
+    
+    
+	<select id="findList" resultMap="BaseResultMap" parameterType="com.cd.arrange.web.model.auto.Case">
+        select t.*,tu.name userName,tp.name projectName from t_case t
+        left join t_user tu on t.userId=tu.id
+        left join t_project tp on t.projectId=tp.id
+        where 1=1
+        <if test="id != null and id != ''">
+        	and t.id=#{id}
+        </if>
+        <if test="pageSize != null and pageStart != null">
+        	limit #{pageStart},#{pageSize}
+        </if>
+    </select>
+   
+   
+       
+    <select id="findCount" resultType="Integer" parameterType="com.cd.arrange.web.model.auto.Case">
+        select count(1) count from ( select t.*,tu.name userName,tp.name projectName from t_case t
+        left join t_user tu on t.userId=tu.id
+        left join t_project tp on t.projectId=tp.id
+        where 1=1
+        <if test="id != null and id != ''">
+        	and t.id=#{id}
+        </if>
+        )tt
+    </select>
+    <insert id="insert" parameterType="com.cd.arrange.web.model.auto.Case">
+        insert into t_case(name,comment,projectId,userId)
+		values(#{name},#{comment},#{projectId},#{userId})
+		<selectKey resultType="Integer" keyProperty="id" order="AFTER">  
+        	SELECT LAST_INSERT_ID() AS id  
+    	</selectKey>
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        delete from t_case where id=#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cd.arrange.web.dao.auto.GroupDAO">
+    <resultMap id="BaseResultMap" type="com.cd.arrange.web.model.auto.Group">
+    	
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="projectId" property="projectId" jdbcType="INTEGER" />
+        <result column="parentGroupId" property="parentGroupId" jdbcType="INTEGER" />
+        <result column="parentGroupName" property="parentGroupName" jdbcType="VARCHAR" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="pageSize" property="pageSize" jdbcType="INTEGER" />
+        <result column="pageStart" property="pageStart" jdbcType="INTEGER" />
+    </resultMap>
+    
+    
+	<select id="findList" resultMap="BaseResultMap" parameterType="com.cd.arrange.web.model.auto.Group">
+        select t.*,IFNULL(t2.name,"顶级组") parentGroupName from t_group t 
+		left join t_group t2 on t.parentGroupId=t2.id
+        where 1=1 
+		<if test="projectId != null and '' != projectId">  
+            <![CDATA[  
+              AND t.projectId = #{projectId}  
+            ]]>  
+        </if>
+        <if test="parentGroupId != null and '' != parentGroupId">  
+            <![CDATA[  
+              AND t.parentGroupId = #{parentGroupId}  
+            ]]>  
+        </if>
+        <if test="pageSize != null and pageStart != null">
+        	limit #{pageStart},#{pageSize}
+        </if>
+    </select>
+   
+   
+       
+    <select id="findCount" resultType="Integer" parameterType="com.cd.arrange.web.model.auto.Group">
+        select count(1) count from (select t.*,IFNULL(t2.name,"顶级组") parentGroupName from t_group t 
+		left join t_group t2 on t.parentGroupId=t2.id
+        where 1=1 
+		<if test="projectId != null and '' != projectId">  
+            <![CDATA[  
+              AND t.projectId = #{projectId}  
+            ]]>  
+        </if>
+        <if test="parentGroupId != null and '' != parentGroupId">  
+            <![CDATA[  
+              AND t.parentGroupId = #{parentGroupId}  
+            ]]>  
+        </if>
+        )tt
+    </select>
+    <insert id="insert" parameterType="Group">
+		insert into t_group(name,code,projectId,parentGroupId)
+		values(#{name},#{code},#{projectId},#{parentGroupId})
+	</insert>
+    <delete id="delete" parameterType="Integer">
+        delete from t_group where id=#{id}
+    </delete>
+</mapper>

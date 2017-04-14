@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cd.arrange.web.dao.auto.CaseDataDAO">
+    <resultMap id="BaseResultMap" type="com.cd.arrange.web.model.auto.CaseData">
+    	
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="projectId" property="projectId" jdbcType="INTEGER" />
+        <result column="parentCaseDataId" property="parentCaseDataId" jdbcType="INTEGER" />
+        <result column="parentCaseDataName" property="parentCaseDataName" jdbcType="VARCHAR" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="pageSize" property="pageSize" jdbcType="INTEGER" />
+        <result column="pageStart" property="pageStart" jdbcType="INTEGER" />
+    </resultMap>
+    
+    
+	<select id="findList" resultMap="BaseResultMap" parameterType="com.cd.arrange.web.model.auto.CaseData">
+        select t.* from t_caseData t 
+		
+        where 1=1 
+		<if test="caseScriptId != null and '' != caseScriptId">  
+            <![CDATA[  
+              AND t.caseScriptId = #{caseScriptId}  
+            ]]>  
+        </if>
+        <if test="dataMapId != null and '' != dataMapId">  
+            <![CDATA[  
+              AND t.dataMapId = #{dataMapId}  
+            ]]>  
+        </if>
+    </select>
+    <insert id="insert" parameterType="CaseData">
+		insert into t_caseData(dataValue,dataMapId,caseScriptId,sort)
+		values(#{dataValue},#{dataMapId},#{caseScriptId},#{sort})
+	</insert>
+    <delete id="delete" parameterType="Integer">
+        delete from t_caseData where id=#{id}
+    </delete>
+    <update id="update" parameterType="com.cd.arrange.web.model.auto.CaseData">
+		update t_casedata set dataValue=#{dataValue}  where id=#{id}
+	</update>
+</mapper>

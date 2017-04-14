@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ceis.arrange.web.dao.TaskDAO">
+    <resultMap id="BaseResultMap" type="com.ceis.arrange.web.model.Task">
+    	
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="CHAR" />
+        <result column="pageSize" property="pageSize" jdbcType="INTEGER" />
+    	<result column="pageStart" property="pageStart" jdbcType="INTEGER" />
+    </resultMap>
+    
+    <sql id="columnList">
+        id, title, content
+    </sql>
+    
+    
+	<select id="findTaskList" resultMap="BaseResultMap" parameterType="com.ceis.arrange.web.model.Task">
+        select
+        <include refid="columnList" />
+        from t_task
+        <if test="pageSize != null and pageStart != null">
+        	limit #{pageStart},#{pageSize}
+        </if>
+    </select>
+   
+  <!--  <select id="findTaskList" resultMap="BaseResultMap" parameterType="com.ceis.arrange.web.model.Task">
+    	select t.* from t_task t
+
+    </select>
+    --> 
+    <select id="findTaskCount" resultType="INTEGER" parameterType="com.ceis.arrange.web.model.Task">
+    	select count(1) from (select t.* from t_task t)tt
+    	 
+    </select>
+    
+</mapper>

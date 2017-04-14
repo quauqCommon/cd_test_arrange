@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ceis.arrange.web.dao.operation.ComputerDAO">
+    <resultMap id="BaseResultMap" type="com.ceis.arrange.web.model.operation.Computer">
+    	
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="ip" property="ip" jdbcType="VARCHAR" />
+        <result column="userName" property="userName" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <sql id="columnList">
+        id, name,ip,userName,password,category
+
+    </sql>
+    
+    
+	<select id="findList" resultMap="BaseResultMap" parameterType="com.ceis.arrange.web.model.operation.Computer">
+        select
+        <include refid="columnList" />
+        from t_computer t where 1=1
+        <if test="pageSize != null and pageStart != null">
+        	limit #{pageStart},#{pageSize}
+        </if>
+    </select>
+   
+   
+       
+    <select id="findCount" resultType="Integer" parameterType="com.ceis.arrange.web.model.operation.Computer">
+        select count(1) count from ( select
+        <include refid="columnList" />
+        from t_computer t where 1=1
+        )tt
+    </select>
+    <insert id="insert" parameterType="com.ceis.arrange.web.model.operation.Computer">
+        insert into t_computer (name,ip,userName,password,category)
+        values (#{name,jdbcType=VARCHAR},#{ip,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR}, #{password,jdbcType=CHAR},#{category,jdbcType=BIGINT})
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        delete from t_computer where id=#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cd.arrange.web.dao.dayTaskDAO">
+    <resultMap id="BaseResultMap" type="com.cd.arrange.web.model.dayTask">
+    	
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="week" property="week" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="CHAR" />
+        <result column="pageSize" property="pageSize" jdbcType="INTEGER" />
+    	<result column="pageStart" property="pageStart" jdbcType="INTEGER" />
+    </resultMap>
+    
+    <sql id="columnList">
+        id, week, content
+    </sql>
+    
+    
+	<select id="finddayTaskList" resultMap="BaseResultMap" parameterType="com.cd.arrange.web.model.dayTask">
+        select
+        <include refid="columnList" />
+        from t_task_day t where 1=1
+        
+        <if test="week != null and week != ''">
+        	and t.week like concat('%',#{week},'%')
+        </if>
+        <if test="pageSize != null and pageStart != null">
+        	limit #{pageStart},#{pageSize}
+        </if>
+    </select>
+    <select id="finddayTaskCount" resultType="Integer" parameterType="com.cd.arrange.web.model.dayTask">
+        select count(1) count from (select
+        <include refid="columnList" />
+        from t_task_day t where 1=1
+        
+        <if test="week != null and week != ''">
+        	and t.week like concat('%',#{week},'%')
+        </if>
+        )tt
+    </select>
+    
+</mapper>

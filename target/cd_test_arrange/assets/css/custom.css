@@ -1,0 +1,82 @@
+/* here you can put your own css to customize and override the theme */
+.navbar-inverse .navbar-brand{
+	font-size:22px;
+	color:#FFFFFF;
+}
+.navbar-brand{
+	line-height:15px;
+}
+ul.page-sidebar-menu > li.open > a, ul.page-sidebar-menu > li > a:hover, ul.page-sidebar-menu > li:hover > a{
+	background-color:#FF8000;
+}
+.span1{
+	margin-top:1000px;
+	margin-left:300px;
+}
+.span2{
+	float:right;
+	margin-top:50px;
+	margin-right:250px;
+}
+h1{
+	font-size:58px;
+}
+.page-footer-fixed .footer .footer-inner{
+	color:#ffffff;
+}
+.background{
+	background-img:url("assets/img/homepage/点我.jpg");
+}
+.form-control{
+	padding:0;
+}
+.input-sm{
+	padding:0;
+}
+.search-box{
+
+}
+.search-line{
+	width:33%;
+	float:left;
+}
+.main-container .add{
+	position:relative;
+	top:15px;
+	right:0;
+	float:right;
+	cursor:pointer;
+}
+.main-content .label{
+	width:100px;
+	color:black;
+	display:inline-block;
+}
+.main-content{
+	padding:10px;
+	width:100%;
+}
+.center{
+	text-align:center;
+}
+hr{
+	margin:0;
+}
+.clear{
+	clear:both;
+}
+.btn{
+	font-size:12px;
+}
+select.input-sm{
+	height:25px;
+}
+label{
+	font-size:12px;
+}
+.form-control{
+	font-size:12px;
+	height:25px;
+	display:inline-block;
+	width:50%;
+}
